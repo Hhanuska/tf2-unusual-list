@@ -1,6 +1,7 @@
 # tf2-unusual-list
  
 Get a list of all existing unusuals from Team Fortress 2.
+Not including unusual weapons, warpaints and multi-quality unusuals.
 
 The list contains item objects, see example for properties:
 
