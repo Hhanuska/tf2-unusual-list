@@ -1,0 +1,20 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "google"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent": ["error", 4],
+        "linebreak-style": "off",
+        "comma-dangle": "off",
+        "max-len": ["error", { "code": 100, "comments": 120 }],
+        "object-curly-spacing": ["error", "always"]
+    }
+}
