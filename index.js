@@ -34,7 +34,7 @@ export async function getEverything(delay = 10000, useSave = false) {
     fs.writeFileSync('./files/allUnusuals.json', JSON.stringify(fullList, null, 2));
 }
 
-async function getUnusuals(useSave = false) {
+export async function getUnusuals(useSave = false) {
     let possibleUnusuals = [];
 
     if(!useSave) {
@@ -63,7 +63,7 @@ async function getUnusuals(useSave = false) {
     return possibleUnusuals;
 }
 
-async function getEffects(item) {
+export async function getEffects(item) {
     const unusualPage = await axios({
         method: 'get',
         url: 'https://backpack.tf/unusual/' + item,
