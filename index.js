@@ -1,11 +1,7 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
 
-import fs from 'fs';
-
 function timeout(ms) {
-    console.log('Waiting for ' + ms + ' ms');
-
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve()
@@ -13,8 +9,8 @@ function timeout(ms) {
     });
 }
 
-export async function getEverything(delay = 10000, useSave = false) {
-    const possibleUnusuals = await getUnusuals(useSave);
+export async function getEverything(delay = 10000, list) {
+    const possibleUnusuals = list ? list : await getUnusuals();
 
     let fullList = [];
 
@@ -31,34 +27,26 @@ export async function getEverything(delay = 10000, useSave = false) {
         fullList = fullList.concat(await getEffects(possibleUnusuals[i]));
     }
 
-    fs.writeFileSync('./files/allUnusuals.json', JSON.stringify(fullList, null, 2));
+    return fullList;
 }
 
-export async function getUnusuals(useSave = false) {
-    let possibleUnusuals = [];
+export async function getUnusuals() {
+    const possibleUnusuals = [];
 
-    if(!useSave) {
-        const allUnusualsPage = await axios({
-            method: 'get',
-            url: 'https://backpack.tf/unusuals',
-            headers: {
-                Cookie: 'user-id=' + 1
-            }
-        });
-        
-        const $ = cheerio.load(allUnusualsPage.data);
-        const contents = $('#unusual-pricelist').contents();
-        
-        for (let i = 0; i < contents.length; i++) {
-            possibleUnusuals.push(contents[i].attribs['data-name']);
+    const allUnusualsPage = await axios({
+        method: 'get',
+        url: 'https://backpack.tf/unusuals',
+        headers: {
+            Cookie: 'user-id=' + 1
         }
-        
-        fs.writeFileSync('./files/possibleUnusuals.json', JSON.stringify(possibleUnusuals, null, 2));
-    } else {
-        possibleUnusuals = JSON.parse(fs.readFileSync('./files/possibleUnusuals.json'));
+    });
+    
+    const $ = cheerio.load(allUnusualsPage.data);
+    const contents = $('#unusual-pricelist').contents();
+    
+    for (let i = 0; i < contents.length; i++) {
+        possibleUnusuals.push(contents[i].attribs['data-name']);
     }
-
-    console.log('Got possible Unusuals');
 
     return possibleUnusuals;
 }
@@ -115,8 +103,4 @@ function getAvg(array) {
     }, 0);
 
     return sum / array.length;
-}
-
-export function getList() {
-    return JSON.parse(fs.readFileSync('./files/allUnusuals.json'));
 }
