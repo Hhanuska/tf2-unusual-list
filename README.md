@@ -21,7 +21,7 @@ The list contains item objects, see example for properties:
 
 Creating the complete list takes a long time, because there is a limit on the amount of requests we can make, therefore a pre-made list is included.
 
-## getEverything(delay, list)
+## getEverything(delay, list, cookies)
 
 Async function to create the list of unusuals based on https://backpack.tf/unusuals.
 
@@ -29,15 +29,21 @@ delay - Specify the time between each request (in ms) to avoid getting IP banned
 
 list - Optional. An array of item names, if omitted, get all items that can be Unusuals and use that as the list
 
-## getUnusuals()
+cookies - Optional. Use your own cookie string
+
+## getUnusuals(cookies)
 
 Async function to create a list of item names that can be unusuals based on https://backpack.tf/unusuals.
 
-## getEffects(item)
+cookies - Optional. Use your own cookie string
+
+## getEffects(item, cookies)
 
 Async function to create a list of all possible effects for an item.
 
 item - Name of the item
+
+cookies - Optional. Use your own cookie string
 
 Returns a list of objects:
 
