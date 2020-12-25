@@ -9,8 +9,8 @@ function timeout(ms) {
     });
 }
 
-export async function getEverything(delay = 10000, list) {
-    const possibleUnusuals = list ? list : await getUnusuals();
+export async function getEverything(delay = 10000, list, cookies = null) {
+    const possibleUnusuals = list ? list : await getUnusuals(cookies);
 
     let fullList = [];
 
@@ -24,20 +24,20 @@ export async function getEverything(delay = 10000, list) {
 
         await timeout(delay);
 
-        fullList = fullList.concat(await getEffects(possibleUnusuals[i]));
+        fullList = fullList.concat(await getEffects(possibleUnusuals[i], cookies));
     }
 
     return fullList;
 }
 
-export async function getUnusuals() {
+export async function getUnusuals(cookies = null) {
     const possibleUnusuals = [];
 
     const allUnusualsPage = await axios({
         method: 'get',
         url: 'https://backpack.tf/unusuals',
         headers: {
-            Cookie: 'user-id=' + 1
+            Cookie: cookies
         }
     });
     
@@ -51,12 +51,12 @@ export async function getUnusuals() {
     return possibleUnusuals;
 }
 
-export async function getEffects(item) {
+export async function getEffects(item, cookies = null) {
     const unusualPage = await axios({
         method: 'get',
         url: 'https://backpack.tf/unusual/' + item,
         headers: {
-            Cookie: 'user-id=' + 1
+            Cookie: cookies
         }
     });
 
